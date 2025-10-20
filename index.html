@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Francine Nagato - Luxury Japanese-French Design</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-brand">
+                <div class="logo">
+                    <div class="torii-gate">⛩</div>
+                    <span class="brand-name">FRANCINE NAGATO</span>
+                </div>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link active">Home</a></li>
+                <li><a href="#products" class="nav-link">Prodotti</a></li>
+                <li><a href="#contact" class="nav-link">Contatti</a></li>
+            </ul>
+            <div class="nav-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <!-- Home Section -->
+        <section id="home" class="section active">
+            <div class="hero">
+                <div class="hero-content">
+                    <h1 class="hero-title">Lusso Giapponese-Francese</h1>
+                    <p class="hero-subtitle">Mobili e forniture di design esclusivo</p>
+                    <a href="#products" class="cta-button">Scopri la Collezione</a>
+                </div>
+            </div>
+
+            <div class="about-section">
+                <div class="container">
+                    <div class="about-content">
+                        <div class="about-text">
+                            <h2>Francine Nagato</h2>
+                            <p class="about-description">
+                                Un'azienda che incarna l'essenza del lusso attraverso la fusione perfetta 
+                                tra l'eleganza minimalista giapponese e il raffinato savoir-faire francese. 
+                                Ogni pezzo è un'opera d'arte che racconta una storia di bellezza e funzionalità.
+                            </p>
+                        </div>
+                        <div class="ceo-bio">
+                            <div class="ceo-image">
+                                <div class="ceo-placeholder"></div>
+                            </div>
+                            <div class="ceo-info">
+                                <h3>Francine Nagato</h3>
+                                <p class="ceo-title">CEO & Creative Director</p>
+                                <p class="ceo-description">
+                                    Con oltre 15 anni di esperienza nel design di lusso, Francine ha creato 
+                                    un brand che celebra l'armonia tra tradizione e innovazione. La sua visione 
+                                    unica combina l'estetica zen giapponese con l'eleganza parigina.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="vision-section">
+                <div class="container">
+                    <h2>La Nostra Vision</h2>
+                    <p class="vision-text">
+                        Crediamo che il lusso non sia solo nell'apparenza, ma nell'esperienza. 
+                        Ogni mobile, ogni accessorio è progettato per creare spazi che nutrono 
+                        l'anima e ispirano la vita quotidiana. La nostra missione è portare 
+                        l'essenza del lusso giapponese-francese nelle case di chi apprezza 
+                        la bellezza autentica e la qualità senza compromessi.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Products Section -->
+        <section id="products" class="section">
+            <div class="container">
+                <div class="products-header">
+                    <h2>Le Nostre Collezioni</h2>
+                    <p>Scopri l'eleganza senza tempo dei nostri mobili di lusso</p>
+                </div>
+
+                <div class="categories">
+                    <div class="category-tabs">
+                        <button class="tab-btn active" data-category="living">Soggiorno</button>
+                        <button class="tab-btn" data-category="bedroom">Camera da Letto</button>
+                        <button class="tab-btn" data-category="dining">Sala da Pranzo</button>
+                    </div>
+
+                    <div class="products-grid" id="products-grid">
+                        <!-- Products will be loaded dynamically -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="section">
+            <div class="container">
+                <div class="contact-header">
+                    <h2>Contattaci</h2>
+                    <p>Desideri informazioni sui nostri prodotti o vuoi richiedere un preventivo personalizzato?</p>
+                </div>
+
+                <div class="contact-content">
+                    <div class="contact-info">
+                        <div class="info-item">
+                            <h3>Indirizzo</h3>
+                            <p>Via del Lusso, 123<br>Milano, Italia</p>
+                        </div>
+                        <div class="info-item">
+                            <h3>Telefono</h3>
+                            <p>+39 02 1234 5678</p>
+                        </div>
+                        <div class="info-item">
+                            <h3>Email</h3>
+                            <p>info@francinenagato.com</p>
+                        </div>
+                    </div>
+
+                    <form class="contact-form" id="contact-form">
+                        <div class="form-group">
+                            <input type="text" id="name" name="name" placeholder="Nome" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="email" name="email" placeholder="Email" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="tel" id="phone" name="phone" placeholder="Telefono">
+                        </div>
+                        <div class="form-group">
+                            <select id="interest" name="interest" required>
+                                <option value="">Seleziona interesse</option>
+                                <option value="living">Soggiorno</option>
+                                <option value="bedroom">Camera da Letto</option>
+                                <option value="dining">Sala da Pranzo</option>
+                                <option value="custom">Progetto Personalizzato</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="message" name="message" placeholder="Il tuo messaggio" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="submit-btn">Invia Richiesta</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Product Modal -->
+    <div id="product-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="modal-body">
+                <div class="product-image">
+                    <img id="modal-image" src="" alt="">
+                </div>
+                <div class="product-details">
+                    <h3 id="modal-title"></h3>
+                    <p id="modal-description"></p>
+                    <div class="product-specs">
+                        <div class="spec">
+                            <span class="spec-label">Materiale:</span>
+                            <span id="modal-material"></span>
+                        </div>
+                        <div class="spec">
+                            <span class="spec-label">Dimensioni:</span>
+                            <span id="modal-dimensions"></span>
+                        </div>
+                        <div class="spec">
+                            <span class="spec-label">Prezzo:</span>
+                            <span id="modal-price"></span>
+                        </div>
+                    </div>
+                    <button class="inquiry-btn">Richiedi Informazioni</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
