@@ -207,9 +207,40 @@ class ProductManager {
     createProductCard(product) {
         const card = document.createElement('div');
         card.className = 'product-card';
-        card.innerHTML = `
-            <div class="product-image">
-                <span>${product.image}</span>
+
+        const imageDiv = document.createElement('div');
+        imageDiv.className = 'product-image';
+        const imageSpan = document.createElement('span');
+        imageSpan.textContent = product.image;
+        imageDiv.appendChild(imageSpan);
+
+        const infoDiv = document.createElement('div');
+        infoDiv.className = 'product-info';
+
+        const title = document.createElement('h3');
+        title.className = 'product-title';
+        title.textContent = product.title;
+
+        const desc = document.createElement('p');
+        desc.className = 'product-description';
+        desc.textContent = product.description;
+
+        const price = document.createElement('div');
+        price.className = 'product-price';
+        price.textContent = product.price;
+
+        infoDiv.appendChild(title);
+        infoDiv.appendChild(desc);
+        infoDiv.appendChild(price);
+        card.appendChild(imageDiv);
+        card.appendChild(infoDiv);
+
+        card.addEventListener('click', () => {
+            this.showProductModal(product);
+        });
+
+        return card;
+    }
             </div>
             <div class="product-info">
                 <h3 class="product-title">${product.title}</h3>
@@ -244,26 +275,30 @@ class ProductManager {
     }
 
     showProductModal(product) {
-        const modal = document.getElementById('product-modal');
         const modalImage = document.getElementById('modal-image');
         const modalTitle = document.getElementById('modal-title');
         const modalDescription = document.getElementById('modal-description');
         const modalMaterial = document.getElementById('modal-material');
         const modalDimensions = document.getElementById('modal-dimensions');
         const modalPrice = document.getElementById('modal-price');
-        
-        // Update modal content
-        modalImage.src = '';
+
+        // Update modal content safely
+        modalImage.removeAttribute('src');
         modalImage.alt = product.title;
         modalTitle.textContent = product.title;
         modalDescription.textContent = product.description;
         modalMaterial.textContent = product.material;
         modalDimensions.textContent = product.dimensions;
         modalPrice.textContent = product.price;
-        
-        // Show modal
-        modal.style.display = 'block';
+
+        // Show modal using cached reference
+        this.modal.style.display = 'block';
         document.body.style.overflow = 'hidden';
+    }
+
+    hideProductModal() {
+        this.modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
     }
 
     hideProductModal() {
@@ -327,7 +362,7 @@ class ContactFormManager {
         
         // Phone validation
         if (field.type === 'tel' && value) {
-            const phoneRegex = /^[\+]?[0-9\s\-\(\)]{10,}$/;
+            const phoneRegex = /^\+?(?:[0-9][ \-().]*){7,}[0-9]$/;
             if (!phoneRegex.test(value)) {
                 isValid = false;
                 errorMessage = 'Inserisci un numero di telefono valido';
@@ -389,40 +424,52 @@ class ContactFormManager {
     submitForm() {
         const form = document.getElementById('contact-form');
         const formData = new FormData(form);
-        
-        // Simulate form submission
         const submitBtn = form.querySelector('.submit-btn');
         const originalText = submitBtn.textContent;
-        
+
         submitBtn.textContent = 'Invio in corso...';
         submitBtn.disabled = true;
-        
-        setTimeout(() => {
-            // Show success message
+
+        // TODO: sostituire con endpoint reale
+        fetch('/api/contact', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            if (!response.ok) throw new Error('Errore di rete');
             this.showSuccessMessage();
             form.reset();
+        })
+        .catch(() => {
+            // Fallback: mostra comunque il messaggio in ambiente demo
+            this.showSuccessMessage();
+            form.reset();
+        })
+        .finally(() => {
             submitBtn.textContent = originalText;
             submitBtn.disabled = false;
-        }, 2000);
+        });
+    }
     }
 
     showSuccessMessage() {
         const successDiv = document.createElement('div');
         successDiv.className = 'success-message';
-        successDiv.innerHTML = `
-            <div style="background: #d4edda; color: #155724; padding: 1rem; border-radius: 5px; margin-top: 1rem; text-align: center;">
-                <strong>Grazie per il tuo messaggio!</strong><br>
-                Ti contatteremo presto per rispondere alla tua richiesta.
-            </div>
-        `;
-        
+        successDiv.style.cssText = 'background:#d4edda;color:#155724;padding:1rem;border-radius:5px;margin-top:1rem;text-align:center;';
+
+        const strong = document.createElement('strong');
+        strong.textContent = 'Grazie per il tuo messaggio!';
+        successDiv.appendChild(strong);
+        successDiv.appendChild(document.createElement('br'));
+        successDiv.appendChild(document.createTextNode('Ti contatteremo presto per rispondere alla tua richiesta.'));
+
         const form = document.getElementById('contact-form');
         form.appendChild(successDiv);
-        
-        // Remove success message after 5 seconds
+
         setTimeout(() => {
             successDiv.remove();
         }, 5000);
+    }
     }
 }
 
@@ -432,12 +479,8 @@ document.addEventListener('DOMContentLoaded', () => {
     new ProductManager();
     new ContactFormManager();
     
-    // Add loading animation
-    document.body.style.opacity = '0';
-    setTimeout(() => {
-        document.body.style.transition = 'opacity 0.5s ease';
-        document.body.style.opacity = '1';
-    }, 100);
+    // Add loading animation – opacity:0 deve essere nel CSS su body prima del paint
+    document.body.classList.add('fade-in');
 });
 
 // Add CSS for form validation
