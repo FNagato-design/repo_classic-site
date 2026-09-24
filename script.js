@@ -207,16 +207,33 @@ class ProductManager {
     createProductCard(product) {
         const card = document.createElement('div');
         card.className = 'product-card';
-        card.innerHTML = `
-            <div class="product-image">
-                <span>${product.image}</span>
-            </div>
-            <div class="product-info">
-                <h3 class="product-title">${product.title}</h3>
-                <p class="product-description">${product.description}</p>
-                <div class="product-price">${product.price}</div>
-            </div>
-        `;
+        const imageDiv = document.createElement('div');
+        imageDiv.className = 'product-image';
+        const imageSpan = document.createElement('span');
+        imageSpan.textContent = product.image;
+        imageDiv.appendChild(imageSpan);
+
+        const infoDiv = document.createElement('div');
+        infoDiv.className = 'product-info';
+
+        const titleEl = document.createElement('h3');
+        titleEl.className = 'product-title';
+        titleEl.textContent = product.title;
+
+        const descEl = document.createElement('p');
+        descEl.className = 'product-description';
+        descEl.textContent = product.description;
+
+        const priceEl = document.createElement('div');
+        priceEl.className = 'product-price';
+        priceEl.textContent = product.price;
+
+        infoDiv.appendChild(titleEl);
+        infoDiv.appendChild(descEl);
+        infoDiv.appendChild(priceEl);
+
+        card.appendChild(imageDiv);
+        card.appendChild(infoDiv);
         
         card.addEventListener('click', () => {
             this.showProductModal(product);
@@ -244,7 +261,7 @@ class ProductManager {
     }
 
     showProductModal(product) {
-        const modal = document.getElementById('product-modal');
+        const modal = this.modal;
         const modalImage = document.getElementById('modal-image');
         const modalTitle = document.getElementById('modal-title');
         const modalDescription = document.getElementById('modal-description');
@@ -267,8 +284,7 @@ class ProductManager {
     }
 
     hideProductModal() {
-        const modal = document.getElementById('product-modal');
-        modal.style.display = 'none';
+        this.modal.style.display = 'none';
         document.body.style.overflow = 'auto';
     }
 }
@@ -346,9 +362,14 @@ class ContactFormManager {
         const errorDiv = document.createElement('div');
         errorDiv.className = 'error-message';
         errorDiv.textContent = message;
-        errorDiv.style.color = '#e74c3c';
-        errorDiv.style.fontSize = '0.9rem';
-        errorDiv.style.marginTop = '0.5rem';
+        /* Rimuovere le righe style e aggiungere in styles.css:
+        .error-message {
+            color: #e74c3c;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+        */
+        // Nessun codice inline necessario: la classe 'error-message' gestirà lo stile.
         
         field.parentNode.appendChild(errorDiv);
     }
@@ -388,7 +409,8 @@ class ContactFormManager {
 
     submitForm() {
         const form = document.getElementById('contact-form');
-        const formData = new FormData(form);
+        // TODO: implementare invio reale. Esempio: fetch('/api/contact', { method: 'POST', body: new FormData(form) })
+        // Per ora la submission è simulata.
         
         // Simulate form submission
         const submitBtn = form.querySelector('.submit-btn');
@@ -409,12 +431,22 @@ class ContactFormManager {
     showSuccessMessage() {
         const successDiv = document.createElement('div');
         successDiv.className = 'success-message';
-        successDiv.innerHTML = `
-            <div style="background: #d4edda; color: #155724; padding: 1rem; border-radius: 5px; margin-top: 1rem; text-align: center;">
-                <strong>Grazie per il tuo messaggio!</strong><br>
-                Ti contatteremo presto per rispondere alla tua richiesta.
-            </div>
-        `;
+        const innerDiv = document.createElement('div');
+        innerDiv.style.background = '#d4edda';
+        innerDiv.style.color = '#155724';
+        innerDiv.style.padding = '1rem';
+        innerDiv.style.borderRadius = '5px';
+        innerDiv.style.marginTop = '1rem';
+        innerDiv.style.textAlign = 'center';
+
+        const strong = document.createElement('strong');
+        strong.textContent = 'Grazie per il tuo messaggio!';
+
+        innerDiv.appendChild(strong);
+        innerDiv.appendChild(document.createElement('br'));
+        innerDiv.appendChild(document.createTextNode('Ti contatteremo presto per rispondere alla tua richiesta.'));
+
+        successDiv.appendChild(innerDiv);
         
         const form = document.getElementById('contact-form');
         form.appendChild(successDiv);
@@ -433,11 +465,13 @@ document.addEventListener('DOMContentLoaded', () => {
     new ContactFormManager();
     
     // Add loading animation
+    document.body.style.transition = 'opacity 0.5s ease';
     document.body.style.opacity = '0';
-    setTimeout(() => {
-        document.body.style.transition = 'opacity 0.5s ease';
-        document.body.style.opacity = '1';
-    }, 100);
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+            document.body.style.opacity = '1';
+        });
+    });
 });
 
 // Add CSS for form validation
